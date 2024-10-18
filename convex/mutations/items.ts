@@ -17,7 +17,14 @@ export const createItem = mutation({
 		}
 		const set = args.setName ? await getSetByName(ctx, { setName: args.setName, class: args.class }) : undefined;
 		const newItemId = await ctx.db.insert("items", {
-			...args,
+			class: args.class,
+			name: args.name,
+			image: args.image,
+			rarity: args.rarity,
+			slot: args.slot,
+			level: args.level,
+			stats: args.stats,
+			uniqueBonus: args.uniqueBonus || undefined,
 			set: set || undefined,
 			approved: false
 		});
