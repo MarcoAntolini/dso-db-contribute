@@ -5,6 +5,7 @@ const mailerSend = new MailerSend({
 	apiKey: process.env.MAILERSEND_API_KEY as string
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function POST(req: NextRequest, res: NextResponse) {
 	const { type, name } = await req.json();
 	const emailParams = new EmailParams()
