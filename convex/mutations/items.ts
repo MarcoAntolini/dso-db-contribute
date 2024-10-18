@@ -2,15 +2,15 @@ import { ConvexError, v } from "convex/values";
 import { Id } from "../_generated/dataModel";
 import { mutation } from "../_generated/server";
 import { getImage } from "../queries/images";
+import { getItemByName } from "../queries/items";
 import { itemSchema } from "../schema";
 import { setImageNotMissing } from "./images";
-import { getItemByName } from "../queries/items";
 
 export const createItem = mutation({
 	args: { ...itemSchema, setName: v.optional(v.string()) },
 	handler: async (ctx, args) => {
 		const item = await getItemByName(ctx, { name: args.name, class: args.class });
-		if (item) {
+		if (item !== null) {
 			throw new ConvexError("Item already exists");
 		}
 		const set = await ctx.db
