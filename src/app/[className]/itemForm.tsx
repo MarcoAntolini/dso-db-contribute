@@ -181,12 +181,10 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 	);
 
 	function handleSetItem() {
-		const element = document.getElementById("preview");
-		element?.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
 		const formValues = form.getValues();
 		const itemData: Partial<Item> = {
 			name: formValues.name,
-			class: classValue,
+			class: classValue as typeof classValue,
 			image: formValues.image,
 			rarity: formValues.rarity,
 			slot: formValues.slot,

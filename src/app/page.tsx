@@ -33,7 +33,7 @@ export default function Home() {
 				</p>
 				<p className="mt-2">
 					You can join the{" "}
-					<Link href="https://discord.com/invite/BJ9cdtjBmt" target="_blank" className="underline">
+					<Link href="https://discord.com/invite/cRc47h7Drh" target="_blank" className="underline">
 						Discord server
 					</Link>{" "}
 					to discuss the project and give feedback.
