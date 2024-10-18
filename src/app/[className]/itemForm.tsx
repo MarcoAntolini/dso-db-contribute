@@ -184,7 +184,7 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 		const formValues = form.getValues();
 		const itemData: Partial<Item> = {
 			name: formValues.name,
-			class: classValue as typeof classValue,
+			class: classValue,
 			image: formValues.image,
 			rarity: formValues.rarity,
 			slot: formValues.slot,

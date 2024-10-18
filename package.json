@@ -23,7 +23,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "convex": "^1.16.4",
-    "dso-database": "^2.1.1",
+    "dso-database": "^2.1.2",
     "dso-db-contribute": "file:",
     "lucide-react": "^0.447.0",
     "next": "14.2.14",
