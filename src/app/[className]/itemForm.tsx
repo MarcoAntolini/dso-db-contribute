@@ -214,6 +214,7 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 			}));
 		}
 		setItem(itemData as Item);
+		document.getElementById("preview")?.scrollIntoView({ behavior: "smooth", block: "start" });
 	}
 
 	function onSubmit(values: z.infer<typeof itemFormSchema>) {

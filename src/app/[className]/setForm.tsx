@@ -97,6 +97,7 @@ export default function SetForm({ classValue, setSet }: { classValue: Class; set
 							}
 			}))
 		});
+		document.getElementById("preview")?.scrollIntoView({ behavior: "smooth", block: "start" });
 	}
 
 	function onSubmit(values: z.infer<typeof setFormSchema>) {
