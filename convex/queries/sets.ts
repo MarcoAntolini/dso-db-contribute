@@ -8,7 +8,7 @@ export const getAllSets = query({
 	}
 });
 
-export const getSets = query({
+export const getSetsByClass = query({
 	args: v.object({
 		class: v.union(
 			v.literal(Classes.dragonknight),
@@ -25,7 +25,7 @@ export const getSets = query({
 	}
 });
 
-export const getSet = query({
+export const getSetByName = query({
 	args: v.object({
 		setName: v.string(),
 		class: v.union(

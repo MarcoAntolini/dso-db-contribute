@@ -22,7 +22,8 @@ export const setSchema = {
 				v.string()
 			)
 		})
-	)
+	),
+	approved: v.optional(v.boolean())
 };
 
 export const itemSchema = {
@@ -90,7 +91,8 @@ export const itemSchema = {
 				)
 			})
 		)
-	)
+	),
+	approved: v.optional(v.boolean())
 };
 
 const imageSchema = {

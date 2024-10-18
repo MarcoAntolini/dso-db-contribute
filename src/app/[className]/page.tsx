@@ -79,7 +79,7 @@ export default function ClassPage({ params }: { params: { className: string } })
 								<RefreshCcwIcon className="w-4 h-4" />
 							</Button>
 						</CardHeader>
-						<ItemForm key={itemFormKey} classValue={classValue} setItem={setItem} />
+						<ItemForm key={itemFormKey} classValue={classValue} setItem={setItem} clearItemForm={clearItemForm} />
 					</Card>
 				</TabsContent>
 				<TabsContent value="sets">
@@ -91,7 +91,7 @@ export default function ClassPage({ params }: { params: { className: string } })
 								<RefreshCcwIcon className="w-4 h-4" />
 							</Button>
 						</CardHeader>
-						<SetForm key={setFormKey} classValue={classValue} setSet={setSet} />
+						<SetForm key={setFormKey} classValue={classValue} setSet={setSet} clearSetForm={clearSetForm} />
 					</Card>
 				</TabsContent>
 			</Tabs>

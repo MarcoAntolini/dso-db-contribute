@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { Class, ItemSet, StatType, StatTypes } from "dso-database";
 import { Check, ChevronsUpDown, PlusIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
@@ -53,7 +53,15 @@ export const setFormSchema = z.object({
 	)
 });
 
-export default function SetForm({ classValue, setSet }: { classValue: Class; setSet: (set: ItemSet) => void }) {
+export default function SetForm({
+	classValue,
+	setSet,
+	clearSetForm
+}: {
+	classValue: Class;
+	setSet: (set: ItemSet) => void;
+	clearSetForm: () => void;
+}) {
 	const form = useForm<z.infer<typeof setFormSchema>>({
 		resolver: zodResolver(setFormSchema),
 		defaultValues: {}
@@ -83,6 +91,9 @@ export default function SetForm({ classValue, setSet }: { classValue: Class; set
 
 	const createSet = useMutation(api.mutations.sets.createSet);
 
+	const name = form.watch("name");
+	const set = useQuery(api.queries.sets.getSetByName, { setName: name ?? "", class: classValue });
+
 	function handleSetSet() {
 		setSet({
 			name: form.getValues("name"),
@@ -110,6 +121,10 @@ export default function SetForm({ classValue, setSet }: { classValue: Class; set
 	}
 
 	function onSubmit(values: z.infer<typeof setFormSchema>) {
+		if (set) {
+			toast.warning("Set already exists");
+			return;
+		}
 		try {
 			createSet({
 				name: values.name,
@@ -117,7 +132,12 @@ export default function SetForm({ classValue, setSet }: { classValue: Class; set
 				items: values.items.map((item) => item.name),
 				setBonus: values.setBonus
 			});
+			clearSetForm();
 			toast.success("Set created successfully");
+			fetch("/api/send-email", {
+				method: "POST",
+				body: JSON.stringify({ type: "set", name: values.name })
+			});
 			console.log("Form submitted with values:", values);
 		} catch (error) {
 			console.error("Error in form submission:", error);

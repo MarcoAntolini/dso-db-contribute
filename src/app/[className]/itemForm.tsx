@@ -130,15 +130,24 @@ const itemFormSchema = z.object({
 	)
 });
 
-export default function ItemForm({ classValue, setItem }: { classValue: Class; setItem: (item: Item) => void }) {
+export default function ItemForm({
+	classValue,
+	setItem,
+	clearItemForm
+}: {
+	classValue: Class;
+	setItem: (item: Item) => void;
+	clearItemForm: () => void;
+}) {
 	const form = useForm<z.infer<typeof itemFormSchema>>({
 		resolver: zodResolver(itemFormSchema),
 		defaultValues: {}
 	});
 
+	const name = form.watch("name");
 	const setName = form.watch("setName");
 	const createItem = useMutation(api.mutations.items.createItem);
-	const getSet = useQuery(api.queries.sets.getSet, { class: classValue, setName: setName ?? "" });
+	const getSet = useQuery(api.queries.sets.getSetByName, { class: classValue, setName: setName ?? "" });
 	const set: ItemSet | undefined = getSet
 		? {
 				name: getSet.name,
@@ -176,10 +185,12 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 	const [setNamePopoverOpen, setSetNamePopoverOpen] = useState(false);
 	const [uniqueBonusesPopoverOpen, setUniqueBonusesPopoverOpen] = useState<boolean[]>([]);
 
-	const sets = useQuery(api.queries.sets.getSets, { class: classValue });
+	const sets = useQuery(api.queries.sets.getSetsByClass, { class: classValue });
 	const missingItems = useQuery(
 		api.queries.images[`getMissing${classValue.replace(" ", "")}Items` as keyof typeof api.queries.images]
 	);
+
+	const item = useQuery(api.queries.items.getItemByName, { name: name ?? "", class: classValue });
 
 	function handleSetItem() {
 		const formValues = form.getValues();
@@ -227,6 +238,10 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 	}
 
 	function onSubmit(values: z.infer<typeof itemFormSchema>) {
+		if (item) {
+			toast.warning("Item already exists");
+			return;
+		}
 		try {
 			createItem({
 				name: values.name,
@@ -239,7 +254,12 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 				setName: values.setName ?? undefined,
 				uniqueBonus: values.uniqueBonus ?? undefined
 			});
+			clearItemForm();
 			toast.success("Item created successfully");
+			fetch("/api/send-email", {
+				method: "POST",
+				body: JSON.stringify({ type: "item", name: values.name })
+			});
 			console.log("Form submitted with values:", values);
 		} catch (error) {
 			console.error("Error in form submission:", error);
@@ -280,7 +300,7 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 															{field.value ? (
 																<div className="flex items-center space-x-2">
 																	<Image
-																		src={`https://api.dracania-archives.com/images/${field.value}.png`}
+																		src={`/api/proxy-image?imageName=${field.value}`}
 																		alt={field.value}
 																		width={25}
 																		height={25}
@@ -316,7 +336,7 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 																		/>
 																		<div className="flex items-center space-x-2">
 																			<Image
-																				src={`https://api.dracania-archives.com/images/${item.imageName}.png`}
+																				src={`/api/proxy-image?imageName=${item.imageName}`}
 																				alt={item.imageName}
 																				width={30}
 																				height={30}
@@ -562,7 +582,7 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 												<PopoverTrigger asChild className="w-full">
 													<Button
 														variant="outline"
-														className={cn("w-full justify-start text-left", !field.value && "text-muted-foreground")}
+														className={cn("w-full justify-between", !field.value && "text-muted-foreground")}
 													>
 														{field.value ? field.value : "Select set"}
 														<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -575,7 +595,7 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 															{sets?.map((set) => (
 																<CommandItem
 																	value={set.name}
-																	key={set.name}
+																	key={set._id}
 																	onSelect={() => {
 																		field.onChange(set.name);
 																		setSetNamePopoverOpen(false);
@@ -587,6 +607,7 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 																			set.name === field.value ? "opacity-100" : "opacity-0"
 																		)}
 																	/>
+																	<span>{set.name}</span>
 																</CommandItem>
 															))}
 														</CommandList>
@@ -756,7 +777,9 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 						<Button variant="outline" type="button" onClick={handleSetItem}>
 							Preview item
 						</Button>
-						<Button type="submit" onClick={checkForm}>Submit</Button>
+						<Button type="submit" onClick={checkForm}>
+							Submit
+						</Button>
 					</CardFooter>
 				</form>
 			</Form>

@@ -35,11 +35,11 @@ const navItems = [
 	}
 ];
 
-export default function Header() {
+export default function Header({ className }: { className: string }) {
 	const pathname = usePathname();
 
 	return (
-		<header className="bg-background border-b sticky top-0 z-50">
+		<header className={`bg-background border-b sticky top-0 z-50 ${className}`}>
 			<div className="container mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex items-center justify-between h-16">
 					<Link href="/" className="flex-shrink-0">
@@ -55,7 +55,7 @@ export default function Header() {
 										className={`flex items-center font-bold text-lg hover:text-primary transition-colors
 											${pathname === item.href ? "text-primary" : "text-muted-foreground"}`}
 									>
-										<Image src={item.image} alt={`${item.name} icon`} width={32} height={32} className="mr-2" />
+										<Image src={item.image} alt={`${item.name} icon`} width={35} height={35} className="mr-2" />
 										{item.name}
 									</NavigationMenuLink>
 								</NavigationMenuItem>

@@ -1,6 +1,7 @@
 import Header from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import "dotenv/config";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ConvexClientProvider } from "./ConvexClientProvider";
@@ -31,7 +32,7 @@ export default function RootLayout({
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<ConvexClientProvider>
 					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-						<Header />
+						<Header className="hidden custom-size:flex" />
 						<main className="pt-20 pb-10 h-[calc(100vh-65px)]">
 							<div className="hidden custom-size:flex flex-1 flex-col items-center gap-10 px-10 pb-20">{children}</div>
 							<div className="custom-size:hidden flex flex-col items-center mt-32 text-center">

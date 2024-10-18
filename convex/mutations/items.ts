@@ -1,18 +1,23 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { Id } from "../_generated/dataModel";
 import { mutation } from "../_generated/server";
 import { getImage } from "../queries/images";
 import { itemSchema } from "../schema";
 import { setImageNotMissing } from "./images";
+import { getItemByName } from "../queries/items";
 
 export const createItem = mutation({
 	args: { ...itemSchema, setName: v.optional(v.string()) },
 	handler: async (ctx, args) => {
+		const item = await getItemByName(ctx, { name: args.name, class: args.class });
+		if (item) {
+			throw new ConvexError("Item already exists");
+		}
 		const set = await ctx.db
 			.query("sets")
 			.filter((q) => q.eq(q.field("name"), args.setName))
 			.first();
-		const newItemId = await ctx.db.insert("items", { ...args, set: set || undefined });
+		const newItemId = await ctx.db.insert("items", { ...args, set: set || undefined, approved: false });
 		const commonClassName =
 			args.class === "Dragonknight"
 				? "warrior"
