@@ -35,6 +35,7 @@ import { Check, ChevronsUpDown, PlusIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const itemFormSchema = z.object({
@@ -217,6 +218,14 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 		document.getElementById("preview")?.scrollIntoView({ behavior: "smooth", block: "start" });
 	}
 
+	function checkForm() {
+		const values = form.getValues();
+		if (!values.name || !values.image || !values.rarity || !values.slot || !values.level || !values.stats) {
+			toast.error("Please fill in all the fields");
+			return;
+		}
+	}
+
 	function onSubmit(values: z.infer<typeof itemFormSchema>) {
 		try {
 			createItem({
@@ -230,6 +239,7 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 				setName: values.setName ?? undefined,
 				uniqueBonus: values.uniqueBonus ?? undefined
 			});
+			toast.success("Item created successfully");
 			console.log("Form submitted with values:", values);
 		} catch (error) {
 			console.error("Error in form submission:", error);
@@ -327,7 +337,7 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 							<FormField
 								control={form.control}
 								name="level"
-								render={({ field, fieldState }) => (
+								render={({ field }) => (
 									<FormItem className="col-span-2">
 										<FormControl>
 											<Input
@@ -338,7 +348,6 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 												type="number"
 											/>
 										</FormControl>
-										{fieldState.error && <p className="text-red-500">{fieldState.error.message}</p>}
 									</FormItem>
 								)}
 							/>
@@ -747,7 +756,7 @@ export default function ItemForm({ classValue, setItem }: { classValue: Class; s
 						<Button variant="outline" type="button" onClick={handleSetItem}>
 							Preview item
 						</Button>
-						<Button type="submit">Submit</Button>
+						<Button type="submit" onClick={checkForm}>Submit</Button>
 					</CardFooter>
 				</form>
 			</Form>

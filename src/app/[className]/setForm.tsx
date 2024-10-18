@@ -15,6 +15,7 @@ import { Class, ItemSet, StatType, StatTypes } from "dso-database";
 import { Check, ChevronsUpDown, PlusIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export const setFormSchema = z.object({
@@ -100,6 +101,14 @@ export default function SetForm({ classValue, setSet }: { classValue: Class; set
 		document.getElementById("preview")?.scrollIntoView({ behavior: "smooth", block: "start" });
 	}
 
+	function checkForm() {
+		const values = form.getValues();
+		if (!values.name || !values.items || !values.setBonus) {
+			toast.error("Please fill in all the fields");
+			return;
+		}
+	}
+
 	function onSubmit(values: z.infer<typeof setFormSchema>) {
 		try {
 			createSet({
@@ -108,6 +117,7 @@ export default function SetForm({ classValue, setSet }: { classValue: Class; set
 				items: values.items.map((item) => item.name),
 				setBonus: values.setBonus
 			});
+			toast.success("Set created successfully");
 			console.log("Form submitted with values:", values);
 		} catch (error) {
 			console.error("Error in form submission:", error);
@@ -341,7 +351,9 @@ export default function SetForm({ classValue, setSet }: { classValue: Class; set
 						<Button variant="outline" type="button" onClick={handleSetSet}>
 							Preview set
 						</Button>
-						<Button type="submit">Submit</Button>
+						<Button type="submit" onClick={checkForm}>
+							Submit
+						</Button>
 					</CardFooter>
 				</form>
 			</Form>

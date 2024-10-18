@@ -60,7 +60,7 @@ export default function ClassPage({ params }: { params: { className: string } })
 	};
 
 	return (
-		<div className="flex justify-between gap-20 sm:flex-col sm:items-center sm:gap-10">
+		<div className="flex justify-between gap-20 max-xl:flex-col max-xl:items-center max-xl:gap-10">
 			<Tabs defaultValue={tab ?? "items"} className="w-[600px]">
 				<TabsList className="grid w-full grid-cols-2">
 					<TabsTrigger value="items" onClick={() => router.push(`/${className}?tab=items`)}>

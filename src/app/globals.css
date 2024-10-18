@@ -77,6 +77,18 @@ body {
 	}
 }
 
+@media (min-width: 700px) {
+	.custom-size\:flex {
+		@apply flex;
+	}
+}
+
+@media (min-width: 700px) {
+	.custom-size\:hidden {
+		@apply hidden;
+	}
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance: none;

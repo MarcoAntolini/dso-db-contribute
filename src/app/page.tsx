@@ -13,40 +13,61 @@ export default function Home() {
 
 	return (
 		<>
-			<div className="text-center">
-				<h1 className="text-4xl font-bold mb-6">
-					Welcome to the contributor page for{" "}
-					<Link href="https://www.dracania-archives.com/" target="_blank" className="underline">
+			<div className="text-center flex flex-col gap-4">
+				<h1 className="text-4xl font-bold mb-10">
+					🏰 Welcome to the contributor page for{" "}
+					<Link
+						href="https://www.dracania-archives.com/"
+						target="_blank"
+						className="underline hover:text-teal-600 transition-all"
+					>
 						Dracania Archives
-					</Link>
+					</Link>{" "}
+					📜
 				</h1>
 				<p className="">
-					Your input plays a crucial role in helping us complete the database that will help every player find all the
-					data they need about any item.
+					Your input plays a crucial role 🛠️ in helping us complete the database that will help every player find all
+					the data they need about any item.
 				</p>
-				<p className="italic mt-2">
-					Little spoiler: a build calculator tool is already being developed and the items we add will be used in it!
+				<p className="mt-6 font-semibold text-slate-400">
+					🤫 Little spoiler:{" "}
+					<span className="font-normal text-primary">
+						a <span className="font-semibold italic">build calculator tool</span> is already being developed... and the
+						items we add will be used in it!
+					</span>
 				</p>
 				<p className="mt-6">
 					By helping us submit items and providing feedback, you&apos;re not only contributing to the database, but also
-					to the community! And you&apos;ll be credited in the main website.
+					to the community!{" "}
+					<span className="font-semibold text-slate-400">And you&apos;ll be credited in the main website. 💖</span>
 				</p>
-				<p className="mt-2">
-					You can join the{" "}
-					<Link href="https://discord.com/invite/cRc47h7Drh" target="_blank" className="underline">
+				<p className="">
+					You can join the {/* add animation to the underline */}
+					<Link
+						href="https://discord.com/invite/cRc47h7Drh"
+						target="_blank"
+						className="underline hover:text-teal-600 transition-al"
+					>
 						Discord server
 					</Link>{" "}
-					to discuss the project and give feedback.
+					💬 to discuss the project and give feedback.
 				</p>
-				<p className="mt-6">Thank you for being part of this project!</p>
+				<p className="mt-6">Thank you for being part of this project! 🙏</p>
 			</div>
 			{totalItems && missingItems ? (
 				<>
-					<Progress value={(addedItems / totalItems) * 100} max={100} className="w-1/2 mt-10" />
+					<Progress
+						value={(addedItems / totalItems) * 100}
+						className="[&>*]:bg-teal-600 w-1/2 mt-10 min-w-[500px]"
+						max={100}
+					/>
 					<p className="text-2xl font-bold">
-						Missing {missingItems} items out of {totalItems}
+						Missing {missingItems} items out of {totalItems} 🗃️
 					</p>
-					<p className="text-xl font-semibold">Items already added: {((addedItems / totalItems) * 100).toFixed(0)}%</p>
+					<p className="text-xl font-semibold">
+						Items already added:{" "}
+						<span className="font-semibold text-slate-400">{((addedItems / totalItems) * 100).toFixed(0)}%</span>
+					</p>
 				</>
 			) : (
 				<MoonLoader color="#3caea7" />
