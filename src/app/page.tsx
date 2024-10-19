@@ -3,6 +3,7 @@
 import { Progress } from "@/components/ui/progress";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
+import Image from "next/image";
 import Link from "next/link";
 import { MoonLoader } from "react-spinners";
 
@@ -14,16 +15,19 @@ export default function Home() {
 	return (
 		<>
 			<div className="text-center flex flex-col gap-4">
-				<h1 className="text-4xl font-bold mb-10">
-					🏰 Welcome to the contributor page for{" "}
-					<Link
-						href="https://www.dracania-archives.com/"
-						target="_blank"
-						className="underline hover:text-teal-600 transition-all"
-					>
-						Dracania Archives
-					</Link>{" "}
-					📜
+				<h1 className="text-4xl font-bold mb-10 flex items-center justify-center gap-2">
+					<Image src="/images/website-logo.png" alt="Dracania Archives" width={40} height={40} />
+					<span>
+						Welcome to the contributor page for{" "}
+						<Link
+							href="https://www.dracania-archives.com/"
+							target="_blank"
+							className="underline hover:text-teal-600 transition-all text-nowrap"
+						>
+							Dracania Archives
+						</Link>{" "}
+					</span>
+					<Image src="/images/website-logo.png" alt="Dracania Archives" width={40} height={40} />
 				</h1>
 				<p className="">
 					Your input plays a crucial role 🛠️ in helping us complete the database that will help every player find all
@@ -42,11 +46,11 @@ export default function Home() {
 					<span className="font-semibold text-slate-400">And you&apos;ll be credited in the main website. 💖</span>
 				</p>
 				<p className="">
-					You can join the {/* add animation to the underline */}
+					You can join the{" "}
 					<Link
 						href="https://discord.com/invite/cRc47h7Drh"
 						target="_blank"
-						className="underline hover:text-teal-600 transition-al"
+						className="underline hover:text-teal-600 transition-all"
 					>
 						Discord server
 					</Link>{" "}
@@ -66,7 +70,7 @@ export default function Home() {
 					</p>
 					<p className="text-xl font-semibold">
 						Items already added:{" "}
-						<span className="font-semibold text-slate-400">{((addedItems / totalItems) * 100).toFixed(0)}%</span>
+						<span className="font-semibold text-slate-400">{((addedItems / totalItems) * 100).toFixed(2)}%</span>
 					</p>
 				</>
 			) : (

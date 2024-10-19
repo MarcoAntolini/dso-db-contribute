@@ -73,7 +73,7 @@ export default function ClassPage({ params }: { params: { className: string } })
 				<TabsContent value="items">
 					<Card>
 						<CardHeader className="flex flex-row items-center justify-between">
-							<CardTitle>Add new item</CardTitle>
+							<CardTitle>Add new {className.toLowerCase()} item</CardTitle>
 							<Button variant="secondary" onClick={clearItemForm} className="flex items-center gap-2">
 								Clear
 								<RefreshCcwIcon className="w-4 h-4" />
@@ -85,7 +85,7 @@ export default function ClassPage({ params }: { params: { className: string } })
 				<TabsContent value="sets">
 					<Card>
 						<CardHeader className="flex flex-row items-center justify-between">
-							<CardTitle>Add new set</CardTitle>
+							<CardTitle>Add new {className.toLowerCase()} set</CardTitle>
 							<Button variant="secondary" onClick={clearSetForm} className="flex items-center gap-2">
 								Clear
 								<RefreshCcwIcon className="w-4 h-4" />
