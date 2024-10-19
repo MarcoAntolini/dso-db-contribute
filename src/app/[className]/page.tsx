@@ -133,7 +133,7 @@ export default function ClassPage({ params }: { params: { className: string } })
 			) : (
 				<div className="flex items-center justify-center gap-2">
 					<span className="text-sm text-muted-foreground text-nowrap">
-						You are now contributing as {usernameCookie}.
+						You are now contributing as <span className="font-bold text-foreground">{usernameCookie}</span>.
 					</span>
 					<Button
 						variant="destructive"
