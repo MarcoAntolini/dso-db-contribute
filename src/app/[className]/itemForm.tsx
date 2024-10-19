@@ -258,7 +258,7 @@ export default function ItemForm({
 			toast.success("Item created successfully");
 			fetch("/api/send-email", {
 				method: "POST",
-				body: JSON.stringify({ type: "item", name: values.name })
+				body: JSON.stringify({ type: "item", class: classValue, name: values.name })
 			});
 			console.log("Form submitted with values:", values);
 		} catch (error) {

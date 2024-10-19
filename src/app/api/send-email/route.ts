@@ -7,12 +7,12 @@ const mailerSend = new MailerSend({
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function POST(req: NextRequest, res: NextResponse) {
-	const { type, name } = await req.json();
+	const { type, class: className, name } = await req.json();
 	const emailParams = new EmailParams()
 		.setFrom(new Sender("contributor@dracania-archives.com", "Dracania Archives Contributor"))
 		.setTo([new Recipient("marcoantolini.dev@gmail.com", "Marco Antolini")])
-		.setSubject("New item suggestion")
-		.setText(`A new ${type} has been created: ${name}`);
+		.setSubject(`New ${className} ${type} contribution for Dracania Archives`)
+		.setText(`The new ${type} ${className} has been added and is awaiting review: ${name}.`);
 	await mailerSend.email.send(emailParams);
 	return NextResponse.json({ message: "Email sent", success: true });
 }

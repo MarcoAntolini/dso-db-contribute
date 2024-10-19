@@ -100,11 +100,18 @@ const imageSchema = {
 	isMissing: v.boolean()
 };
 
+const usernameSchema = {
+	username: v.string(),
+	ipAddress: v.string(),
+	timestamp: v.string()
+};
+
 export default defineSchema({
 	items: defineTable(itemSchema),
 	sets: defineTable(setSchema),
 	dwarfImages: defineTable(imageSchema),
 	mageImages: defineTable(imageSchema),
 	warriorImages: defineTable(imageSchema),
-	rangerImages: defineTable(imageSchema)
+	rangerImages: defineTable(imageSchema),
+	usernames: defineTable(usernameSchema)
 });

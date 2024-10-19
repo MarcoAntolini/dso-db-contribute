@@ -18,6 +18,7 @@ import type {
 import type * as mutations_images from "../mutations/images.js";
 import type * as mutations_items from "../mutations/items.js";
 import type * as mutations_sets from "../mutations/sets.js";
+import type * as mutations_usernames from "../mutations/usernames.js";
 import type * as queries_images from "../queries/images.js";
 import type * as queries_items from "../queries/items.js";
 import type * as queries_sets from "../queries/sets.js";
@@ -34,6 +35,7 @@ declare const fullApi: ApiFromModules<{
   "mutations/images": typeof mutations_images;
   "mutations/items": typeof mutations_items;
   "mutations/sets": typeof mutations_sets;
+  "mutations/usernames": typeof mutations_usernames;
   "queries/images": typeof queries_images;
   "queries/items": typeof queries_items;
   "queries/sets": typeof queries_sets;

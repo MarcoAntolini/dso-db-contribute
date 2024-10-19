@@ -136,7 +136,7 @@ export default function SetForm({
 			toast.success("Set created successfully");
 			fetch("/api/send-email", {
 				method: "POST",
-				body: JSON.stringify({ type: "set", name: values.name })
+				body: JSON.stringify({ type: "set", class: classValue, name: values.name })
 			});
 			console.log("Form submitted with values:", values);
 		} catch (error) {
