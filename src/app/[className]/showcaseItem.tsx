@@ -6,7 +6,11 @@ export default function ShowcaseItem({ item }: { item: Item }) {
 			<h1 className={`${item?.rarity?.split(" ")[0].toLowerCase().concat("-name")} text-center`}>{item?.name}</h1>
 			<div className="my-1">
 				<p className={item?.rarity?.split(" ")[0].toLowerCase().concat("-label")}>{item?.rarity}</p>
-				<p className="slot">{item?.slot}</p>
+				<p className="slot">
+					{"("}
+					{item?.slot}
+					{")"}
+				</p>
 				<p className="level">Item level: {item?.level}</p>
 			</div>
 			<Separator color="#9d9d9d" className="my-[5px]" />
