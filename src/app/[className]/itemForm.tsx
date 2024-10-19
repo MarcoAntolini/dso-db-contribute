@@ -32,6 +32,7 @@ import {
 	warriorImages
 } from "dso-database";
 import { Check, ChevronsUpDown, PlusIcon, TrashIcon } from "lucide-react";
+import { useCookies } from "next-client-cookies";
 import Image from "next/image";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -192,6 +193,8 @@ export default function ItemForm({
 
 	const item = useQuery(api.queries.items.getItemByName, { name: name ?? "", class: classValue });
 
+	const cookies = useCookies();
+
 	function handleSetItem() {
 		const formValues = form.getValues();
 		const itemData: Partial<Item> = {
@@ -252,7 +255,8 @@ export default function ItemForm({
 				level: values.level,
 				stats: values.stats.filter((stat) => stat.stat !== undefined) as BaseStat[],
 				setName: values.setName ?? undefined,
-				uniqueBonus: values.uniqueBonus ?? undefined
+				uniqueBonus: values.uniqueBonus ?? undefined,
+				contributorUsername: cookies.get("username") ?? undefined
 			});
 			clearItemForm();
 			toast.success("Item created successfully");

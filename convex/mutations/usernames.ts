@@ -35,5 +35,3 @@ export const saveUsername = mutation({
 		});
 	}
 });
-
-// TODO: when creating an item or set, it should be linked to the username that created it

@@ -26,7 +26,8 @@ export const createItem = mutation({
 			stats: args.stats,
 			uniqueBonus: args.uniqueBonus || undefined,
 			set: set || undefined,
-			approved: false
+			approved: false,
+			contributorUsername: args.contributorUsername || undefined
 		});
 		const commonClassName =
 			args.class === Classes.dragonknight

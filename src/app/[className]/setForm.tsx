@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "convex/react";
 import { Class, ItemSet, StatType, StatTypes } from "dso-database";
 import { Check, ChevronsUpDown, PlusIcon, TrashIcon } from "lucide-react";
+import { useCookies } from "next-client-cookies";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -94,6 +95,8 @@ export default function SetForm({
 	const name = form.watch("name");
 	const set = useQuery(api.queries.sets.getSetByName, { setName: name ?? "", class: classValue });
 
+	const cookies = useCookies();
+
 	function handleSetSet() {
 		setSet({
 			name: form.getValues("name"),
@@ -130,7 +133,8 @@ export default function SetForm({
 				name: values.name,
 				class: classValue,
 				items: values.items.map((item) => item.name),
-				setBonus: values.setBonus
+				setBonus: values.setBonus,
+				contributorUsername: cookies.get("username") ?? undefined
 			});
 			clearSetForm();
 			toast.success("Set created successfully");

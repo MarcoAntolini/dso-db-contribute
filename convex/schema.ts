@@ -23,7 +23,8 @@ export const setSchema = {
 			)
 		})
 	),
-	approved: v.optional(v.boolean())
+	approved: v.optional(v.boolean()),
+	contributorUsername: v.optional(v.string())
 };
 
 export const itemSchema = {
@@ -92,7 +93,8 @@ export const itemSchema = {
 			})
 		)
 	),
-	approved: v.optional(v.boolean())
+	approved: v.optional(v.boolean()),
+	contributorUsername: v.optional(v.string())
 };
 
 const imageSchema = {
