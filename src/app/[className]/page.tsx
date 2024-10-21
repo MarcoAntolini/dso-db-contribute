@@ -1,5 +1,15 @@
 "use client";
 
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -76,6 +86,8 @@ export default function ClassPage({ params }: { params: { className: string } })
 		setSet(null);
 	};
 
+	const [usernameDialogOpen, setUsernameDialogOpen] = useState(false);
+
 	return (
 		<div className="flex flex-col items-center justify-center gap-10">
 			{usernameCookie === undefined ? (
@@ -91,6 +103,36 @@ export default function ClassPage({ params }: { params: { className: string } })
 							onChange={(e) => setUsername(e.target.value)}
 							className="px-3 py-2 h-[36px]"
 						/>
+						<AlertDialog open={usernameDialogOpen} onOpenChange={setUsernameDialogOpen}>
+							<AlertDialogContent>
+								<AlertDialogHeader>
+									<AlertDialogTitle>Username already exists</AlertDialogTitle>
+									<AlertDialogDescription>
+										Please choose a different username if it&apos;s not you.
+									</AlertDialogDescription>
+								</AlertDialogHeader>
+								<AlertDialogFooter>
+									<AlertDialogCancel
+										onClick={() => {
+											setUsernameDialogOpen(false);
+											setUsername("");
+										}}
+									>
+										Choose another
+									</AlertDialogCancel>
+									<AlertDialogAction
+										onClick={async () => {
+											setUsernameDialogOpen(false);
+											cookies.set("username", username);
+											setUsername("");
+											toast.success("Username saved");
+										}}
+									>
+										It&apos;s me
+									</AlertDialogAction>
+								</AlertDialogFooter>
+							</AlertDialogContent>
+						</AlertDialog>
 						<Button
 							size="default"
 							variant="secondary"
@@ -109,18 +151,20 @@ export default function ClassPage({ params }: { params: { className: string } })
 												expires: new Date(Date.now() + 1000 * 60 * 60 * 24)
 											});
 											toast.success("Username saved");
+											setUsername("");
 										} catch (error) {
 											if ((error as RateLimitExceededError).message.includes(rateLimitExceededErrorMessage)) {
 												toast.error(rateLimitExceededErrorMessage);
+												setUsername("");
 											} else if (
 												(error as UsernameAlreadyExistsError).message.includes(usernameAlreadyExistsErrorMessage)
 											) {
-												toast.error(usernameAlreadyExistsErrorMessage);
+												setUsernameDialogOpen(true);
 											} else {
 												toast.error("An error occurred while saving your username.");
+												setUsername("");
 											}
 										}
-										setUsername("");
 									}
 								}
 							}}
