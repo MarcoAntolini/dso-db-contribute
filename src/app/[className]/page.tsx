@@ -98,7 +98,7 @@ export default function ClassPage({ params }: { params: { className: string } })
 								if (username === "") {
 									toast.error("Username cannot be empty");
 								} else {
-									const response = await fetch("/api/saveUsername", {
+									const response = await fetch("/api/save-username", {
 										method: "POST",
 										body: JSON.stringify({ username })
 									}).then((res) => res.json());
